@@ -923,18 +923,29 @@ func main() {
 				newmessage = newmessage + "invalid command " + args[0]
 				break
 			}
+			devicehttpinfo := new(manager.HttpInfo)
 			currentdeviceinfo := new(manager.Device)
 			currentdeviceinfo.IpAddress = args[0] + ":" + args[1]
 			currentdeviceinfo.UserOrToken = args[2]
-			currentdeviceinfo.RedfishAPI = "/redfish/v1/eventservice/test"			
-			_, err := cc.SendEventTest(ctx, currentdeviceinfo)
+			devicehttpinfo.HttpMethod = "GET" 
+			currentdeviceinfo.RedfishAPI = "/redfish/v1/EventService/TestEventSubscription"			
+			currentdeviceinfo.HttpInfo = devicehttpinfo
+//			_, err := cc.SendEventTest(ctx, currentdeviceinfo)
+//			if err != nil {
+//				errStatus, _ := status.FromError(err)
+//				newmessage = errStatus.Message()
+//				logrus.Errorf("Failed to Send event test error - status code %v message %v", errStatus.Code(), errStatus.Message())
+//			} else {
+//				newmessage = newmessage + cmd + " send..."
+//			}			
+			retMsg, err := cc.GenericDeviceAccess(ctx, currentdeviceinfo)
 			if err != nil {
 				errStatus, _ := status.FromError(err)
 				newmessage = errStatus.Message()
-				logrus.Errorf("Failed to Send event test error - status code %v message %v", errStatus.Code(), errStatus.Message())
+				logrus.Errorf("get device data error - status code %v message %v", errStatus.Code(), errStatus.Message())
 			} else {
-				newmessage = newmessage + cmd + " send..."
-			}			
+				newmessage = retMsg.ResultData
+			}
 
 		case "listcommands":
 			newmessage = newmessage + `The commands list :
