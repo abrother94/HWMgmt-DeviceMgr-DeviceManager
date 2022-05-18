@@ -54,7 +54,8 @@ var (
 	GlobalConfig = GlobalConfigSpec{
 		Kafka:    "kafka_ip.sh",
 		Local:    ":9999",
-		Manager:  "localhost:31085",
+		//Nick Manager:  "localhost:31085",
+		Manager:  "localhost:50051",
 		Topic:    managerTopic,
 		Consumer: false,
 	}

@@ -220,7 +220,7 @@ func (s *Server) initDataPersistence() {
 					s.devicemap[ip].QueryState = false
 					ContentType[ip] = s.devicemap[ip].ContentType
 					RfProtocol[ip] = s.devicemap[ip].HTTPType
-					go s.collectData(ip)
+					//Nick go s.collectData(ip)
 				}
 			}
 		}
@@ -251,7 +251,7 @@ func main() {
 	s := Server{
 		devicemap: make(map[string]*device),
 	}
-	//s.kafkaInit()
+	//Nick s.kafkaInit()
 	go s.runServer()
 	go s.startGrpcServer()
 	pvmount = os.Getenv("DEVICE_MANAGEMENT_PVMOUNT")
@@ -266,7 +266,7 @@ func main() {
 	signal.Notify(quit, os.Interrupt)
 	sig := <-quit
 	logrus.Infof("Shutting down:%d", sig)
-	//s.kafkaCloseProducer()
+	//Nick s.kafkaCloseProducer()
 	s.closeDataFiles()
 	s.closeDeviceDataFiles()
 }

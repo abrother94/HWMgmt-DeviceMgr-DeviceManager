@@ -38,6 +38,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"fmt"
 )
 
 type scheduler struct {
@@ -309,7 +310,7 @@ func (s *Server) SendDeviceList(c context.Context, list *manager.DeviceList) (*e
 		s.devicemap[ipAddress].PassAuth = dev.PassAuth
 		s.devicemap[ipAddress].DeviceDatafile = getDeviceDataFile(ipAddress)
 		s.devicemap[ipAddress].QueryState = false
-		go s.collectData(ipAddress)
+		//Nick go s.collectData(ipAddress)
 		s.devicemap[ipAddress].Datafile = getDataFile(ipAddress)
 		s.devicemap[ipAddress].RfAPIList = redfishResources
 		RfProtocol[ipAddress] = RfDefaultHttpsProtocol
@@ -1092,3 +1093,14 @@ func (s *Server) SetDeviceTemperatureForEvent(c context.Context, deviceTemperatu
 	}
 	return &empty.Empty{}, nil
 }
+
+//SendEventTest
+func (s *Server) SendEventTest(c context.Context, device *manager.Device) (*empty.Empty, error) {
+	logrus.Info("Received SendEventTest")
+	fmt.Print("............................NICK Received SendEventTest.......................\t \n")
+	if device == nil || len(device.IpAddress) == 0 {
+		return &empty.Empty{}, status.Errorf(http.StatusBadRequest, ErrDeviceData.String())
+	}
+	return &empty.Empty{}, nil
+}
+

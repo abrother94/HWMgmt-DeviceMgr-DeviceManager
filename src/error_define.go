@@ -133,7 +133,7 @@ func (e errorIndex) String(args ...string) string {
 		/*ErrUserPrivilege*/ "The user privilege could not configure this action to the device",
 		/*ErrUserHigherPrivilege*/ "The user privilege could not configure this action than other higher user",
 		/*ErrSessionExists*/ "The session service was enabled on the device " + argsStrs[0] + ". Please login device first and assige the token",
-		/*ErrSessionFailed*/ "Nick test The session service is not enable to configure on device " + argsStrs[0] + " now, status code " + argsStrs[1],
+		/*ErrSessionFailed*/ "test The session service is not enable to configure on device " + argsStrs[0] + " now, status code " + argsStrs[1],
 		/*ErrSessionNotSet*/ "The session service does not enable yet, device " + argsStrs[0],
 		/*ErrSessionTimeout*/ "The seesion timeout has to over " + argsStrs[0],
 		/*ErrLoginFailed*/ "Failed to login device, status code " + argsStrs[0],

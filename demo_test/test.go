@@ -913,6 +913,28 @@ func main() {
 			} else {
 				newmessage = newmessage + cmd + " configured"
 			}
+		case "sendeventtest":
+			if len(s) != 2 {
+				newmessage = newmessage + "invalid command " + cmdstr
+				break
+			}
+			args := strings.Split(s[1], ":")
+			if len(args) < 3 {
+				newmessage = newmessage + "invalid command " + args[0]
+				break
+			}
+			currentdeviceinfo := new(manager.Device)
+			currentdeviceinfo.IpAddress = args[0] + ":" + args[1]
+			currentdeviceinfo.UserOrToken = args[2]
+			currentdeviceinfo.RedfishAPI = "/redfish/v1/eventservice/test"			
+			_, err := cc.SendEventTest(ctx, currentdeviceinfo)
+			if err != nil {
+				errStatus, _ := status.FromError(err)
+				newmessage = errStatus.Message()
+				logrus.Errorf("Failed to Send event test error - status code %v message %v", errStatus.Code(), errStatus.Message())
+			} else {
+				newmessage = newmessage + cmd + " send..."
+			}			
 
 		case "listcommands":
 			newmessage = newmessage + `The commands list :
@@ -978,7 +1000,8 @@ sethttpcontenttype - set device HTTP Content Type
 	Usage: ./dm sethttpcontenttype <ip address:port:http content type>
 sethttptype - set device HTTP Type (http or https)
 	Usage: ./dm sethttpcontenttype <ip address:port:http or https>
-
+sendeventtest - send 4 types of events to event listener 
+	Usage: ./dm sendeventtest <ip address:port:token:uri>
 `
 		default:
 			newmessage = newmessage + "3 invalid command " + cmdstr

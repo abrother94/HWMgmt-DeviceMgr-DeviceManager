@@ -171,4 +171,5 @@ service device_management {
 	rpc SetDeviceTemperatureForEvent(DeviceTemperature) returns (google.protobuf.Empty) {}
 	rpc SetHTTPApplication(Device) returns (google.protobuf.Empty) {}
 	rpc SetHTTPType(Device) returns (google.protobuf.Empty) {}
+	rpc SendEventTest(Device) returns (google.protobuf.Empty) {}
 }
